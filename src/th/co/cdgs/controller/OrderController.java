@@ -200,14 +200,13 @@ public class OrderController {
 		Connection conn = null;  //DB
 		try {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/workshop", "root", "p@ssw0rd");
-			pst = conn.prepareStatement("SELECT order_Id,c.customer_id" + "CONCAT(first_name,' ',last_name) as full_name,"
-					+ "email,tel,"
-					+ "o.product_id,product_name,product_desc,amount,price from orders o"
+			pst = conn.prepareStatement("select order_id,o.customer_Id,CONCAT(first_name,' ',last_name) as full_name,"
+					+ "email,tel,o.product_id,product_name,product_desc,amount,price from orders o "
 					+ "left join product p on p.product_id = o.product_id "
 					+ "left join customer c on c.customer_Id = o.customer_Id "
-					+ "WHERE 1=1 ");
+					+ "where 1=1");
 			rs = pst.executeQuery();
-			OrderDto orderDto = null;
+			//OrderDto orderDto = null;
 			if (firstName != null && !"".equals(firstName)) {
 				
 			}
@@ -238,7 +237,7 @@ public class OrderController {
 				order.setTotal(rs.getBigDecimal("price"));
 				order.setOrderDate(rs.getDate("order_date"));
 				order.setStatus(rs.getString("order_status"));
-				list.add(orderDto);
+				list.add(order);
 			}
 
 		} catch (SQLException e) {
